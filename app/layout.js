@@ -5,6 +5,7 @@ import MainPanel from './(components)/mainPanel'
 import MainLoginPanel from './(components)/mainLogin'
 import { ToastContainer } from 'react-toastify'
 import { Providers } from './provider'
+import AuthWrapper from './(components)/AuthWrapper'
 
 const inter = Inter({
     variable: '--font-inter',
@@ -12,18 +13,15 @@ const inter = Inter({
 })
 
 export default async function RootLayout({ children }) {
-    const cookieStore = await cookies()
-    const user = cookieStore.get('user')?.value // null if not logged in
+ // null if not logged in
 
     return (
         <html lang='en'>
             <body className={`${inter.className} antialiased`}>
                 <Providers>
-                    {user ? (
-                        <MainPanel>{children}</MainPanel>
-                    ) : (
-                        <MainLoginPanel>{children}</MainLoginPanel>
-                    )}
+                    <AuthWrapper>
+                        {children}
+                    </AuthWrapper>
                 </Providers>
                 <ToastContainer />
             </body>
